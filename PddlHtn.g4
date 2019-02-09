@@ -11,7 +11,7 @@
  *
  * Revised and adjusted by Dominik Schreiber, 2018-2019
  */
-grammar Pddl;
+grammar PddlHtn;
 
 /************* Start of grammar *******************/ 
 pddlDoc
@@ -388,11 +388,11 @@ HOLD_AFTER : H O L D '-' A F T E R  ;
 
 METHOD : M E T H O D ;
 EXPANSION : E X P A N S I O N ;
-CONSTRAINTS : C O N S T R A I N T S ;
 TAG : T A G ;
 BEFORE : B E F O R E ;
 AFTER : A F T E R ;
 BETWEEN : B E T W E E N ;
+TASKS : T A S K S ;
 
 R_STRIPS : ':' S T R I P S ;
 R_TYPING : ':' T Y P I N G ;
