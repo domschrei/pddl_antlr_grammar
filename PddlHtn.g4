@@ -142,15 +142,23 @@ methodDef
    ;
 
 taskList
-   : ( task | ('(' TAG NAME task ')') )*
+   : ( task | taggedTask )*
    ;
 
 task
    : '(' NAME term* ')'
    ;
 
+taggedTask
+   : '(' TAG NAME task ')'
+   ;
+
 constraintList
-   : (AND)? ( '(' ((BEFORE|AFTER) NAME goalDesc) | (BETWEEN NAME NAME goalDesc) ')' )*
+   : ( AND constraint* ) | ( constraint* )
+   ;
+
+constraint
+   : '(' (((BEFORE|AFTER) goalDesc NAME) | (BETWEEN goalDesc NAME NAME)) ')'
    ;
 
 /************* DURATIVE ACTIONS ****************************/ 
@@ -301,7 +309,7 @@ goal
    ;
    
 initTaskNetwork
-   : ':' TASKS '(' taskList ')' ( ':' CONSTRAINTS constraintList )?
+   : ':' TASKS '(' taskList ')' ( ':' CONSTRAINTS '(' constraintList ')' )?
    ;
 
 probConstraints
@@ -331,7 +339,7 @@ conGD
 /************* LEXER ****************************/ 
 
 REQUIRE_KEY
-   : R_STRIPS|R_TYPING|R_NEGATIVE_PRECONDITIONS|R_DISJUNCTIVE_PRECONDITIONS|R_EQUALITY|R_EXISTENTIAL_PRECONDITIONS|R_UNIVERSAL_PRECONDITIONS|R_QUANTIFIED_PRECONDITIONS|R_CONDITIONAL_EFFECTS|R_FLUENTS|R_ADL|R_DURATIVE_ACTIONS|R_DERIVED_PREDICATES|R_TIMED_INITIAL_LITERALS|R_PREFERENCES|R_CONSTRAINTS|R_ACTION_COSTS
+   : R_STRIPS|R_TYPING|R_NEGATIVE_PRECONDITIONS|R_DISJUNCTIVE_PRECONDITIONS|R_EQUALITY|R_EXISTENTIAL_PRECONDITIONS|R_UNIVERSAL_PRECONDITIONS|R_QUANTIFIED_PRECONDITIONS|R_CONDITIONAL_EFFECTS|R_FLUENTS|R_ADL|R_DURATIVE_ACTIONS|R_DERIVED_PREDICATES|R_TIMED_INITIAL_LITERALS|R_PREFERENCES|R_ACTION_COSTS|R_HTN
    ;   
    
 DEFINE: D E F I N E;
@@ -409,9 +417,7 @@ R_DURATIVE_ACTIONS : ':' D U R A T I V E '-' A C T I O N S ;
 R_DERIVED_PREDICATES : ':' D E R I V E D '-' P R E D I C A T E S ;
 R_TIMED_INITIAL_LITERALS : ':' T I M E D '-' I N I T I A L '-' L I T E R A L S ;
 R_PREFERENCES : ':' P R E F E R E N C E S ;
-R_CONSTRAINTS : ':' C O N S T R A I N T S ;
 R_ACTION_COSTS : ':' A C T I O N '-' C O S T S ;
-
 R_HTN : ':' H T N ;
 
 STR_NUMBER : N U M B E R ;
